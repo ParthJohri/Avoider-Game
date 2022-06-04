@@ -5,77 +5,85 @@ const scoreDisplay = document.querySelector(".score");
 
 let dropCount, speed, score;
 
+alert("Welcome to the Avoider Game, Use Arrow Keys to play and Press any Key to start!");
+
 reset();
 
-document.addEventListener("keydown", e => {
-    if (!dropCount) {
-        startGame();
-    }
+document.addEventListener("keydown", (e) => {
+  if (!dropCount) {
+    startGame();
+  }
 
-    const player = document.querySelector(".player");
+  const player = document.querySelector(".player");
 
-    if (e.key === "ArrowRight" && playerCells.includes(player.parentElement.nextElementSibling)) {
-        player.parentElement.nextElementSibling.appendChild(player);
-    }
+  if (
+    e.key === "ArrowRight" &&
+    playerCells.includes(player.parentElement.nextElementSibling)
+  ) {
+    player.parentElement.nextElementSibling.appendChild(player);
+  }
 
-    if (e.key === "ArrowLeft" && playerCells.includes(player.parentElement.previousElementSibling)) {
-        player.parentElement.previousElementSibling.appendChild(player);
-    }
+  if (
+    e.key === "ArrowLeft" &&
+    playerCells.includes(player.parentElement.previousElementSibling)
+  ) {
+    player.parentElement.previousElementSibling.appendChild(player);
+  }
 });
 
 function reset() {
-    dropCount = 0;
-    speed = 1000;
-    score = 0;
-    scoreDisplay.innerHTML = "0";
+  dropCount = 0;
+  speed = 1000;
+  score = 0;
+  scoreDisplay.innerHTML = "0";
 
-    cells.forEach(cell => cell.innerHTML = "");
-    playerCells[1].innerHTML = '<div class="player"></div>';
+  cells.forEach((cell) => (cell.innerHTML = ""));
+  playerCells[1].innerHTML = '<div class="player"></div>';
 }
 
 function startGame() {
-    reset();
-    loop();
+  reset();
+  loop();
 }
 
 function loop() {
-    let stopGame = false;
+  let stopGame = false;
 
-    for (let i = enemyCells.length - 1; i >= 0; i--) {
-        const cell = enemyCells[i];
-        const nextCell = cells[i + 3];
-        const enemy = cell.children[0];
+  for (let i = enemyCells.length - 1; i >= 0; i--) {
+    const cell = enemyCells[i];
+    const nextCell = cells[i + 3];
+    const enemy = cell.children[0];
 
-        if (!enemy) {
-            continue;
-        }
-
-        nextCell.appendChild(enemy);
-
-        if (playerCells.includes(nextCell)) {
-            if (nextCell.querySelector(".player")) {
-                stopGame = true;
-            } else {
-                score++;
-                speed = Math.max(100, speed - 25);
-                scoreDisplay.innerHTML = score;
-                enemy.remove();
-            }
-        }
+    if (!enemy) {
+      continue;
     }
 
-    // Even drop count, add new enemy
-    if (dropCount % 2 === 0) {
-        const position = Math.floor(Math.random() * 3);
+    nextCell.appendChild(enemy);
 
-        enemyCells[position].innerHTML = '<div class="enemy"></div>';
+    if (playerCells.includes(nextCell)) {
+      if (nextCell.querySelector(".player")) {
+        stopGame = true;
+      } else {
+        score++;
+        speed = Math.max(100, speed - 25);
+        scoreDisplay.innerHTML = score;
+        enemy.remove();
+      }
     }
+  }
 
-    if (stopGame) {
-        alert('Your score: ' + score + ". Close this window to play again.");
-        reset();
-    } else {
-        dropCount++;
-        setTimeout(loop, speed);
-    }
+  // Even drop count, add new enemy
+  if (dropCount % 2 === 0) {
+    const position = Math.floor(Math.random() * 3);
+
+    enemyCells[position].innerHTML = '<div class="enemy"></div>';
+  }
+
+  if (stopGame) {
+    alert("Your score: " + score + ". Close this window to play again.");
+    reset();
+  } else {
+    dropCount++;
+    setTimeout(loop, speed);
+  }
 }

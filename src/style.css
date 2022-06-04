@@ -3,7 +3,7 @@
     margin:0px;
 }
 body{
-    background-color:black;
+    background: radial-gradient(ellipse at bottom, #0D1E31, #111);
 }
 .header,.header-text{
     text-align:center;
@@ -50,14 +50,14 @@ body{
     background:rgb(255, 111, 0);
 }
 #bottom{
-    position:absolute;
-    bottom:0;
-    width:100%;
-    text-align: center;
     color:#f6c800;
-    padding: 15px 0px;
+    padding: 2px;
+    display:flex;
+    justify-content:center;
+    align-items: center;
 }
 #bottom a { text-decoration: none; color:rgb(255, 208, 1); }
 #bottom a:hover { text-decoration: none; color:rgb(237, 148, 40); }
+
 
 
